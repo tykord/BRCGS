@@ -17,4 +17,13 @@ Write-Host "OS Install Date:    ",($OS.ConvertToDateTime($OS.InstallDate).ToShor
 Write-Host "OS Version:         ", $OS.Caption
 Write-Host "OS Version:         ", $OS.Version
 
-Send-MailMessage -From brianwc@miltown.com -to brianwc@sunnyoasis.com -subject "Inventory - BRCGS" -Body "Forgot to send the attachment. Sending now." -Attachments C:\DATA\GitHub\BRCGS\Inventory.ps1 -SmtpServer 'smtp.office365.com' -UseSsl -Credential brianwc@miltown.com
+
+# Define Credentials
+[string]$userName = 'brianwc@miltown.com'
+[string]$userPassword = 'here'
+
+# Crete credential Object
+[SecureString]$secureString = $userPassword | ConvertTo-SecureString -AsPlainText -Force 
+[PSCredential]$credentialObejct = New-Object System.Management.Automation.PSCredential -ArgumentList $userName, $secureString
+
+Send-MailMessage -From brianwc@miltown.com -to brianwc@miltown.com -subject "Inventory - BRCGS" -Body "Forgot to send the attachment. Sending now." -Attachments C:\DATA\GitHub\BRCGS\Inventory.ps1 -SmtpServer 'smtp.office365.com' -UseSsl -Credential $credentialObejct
